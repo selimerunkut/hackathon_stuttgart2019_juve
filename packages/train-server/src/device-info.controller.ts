@@ -1,6 +1,11 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { GatewayProviderService } from './hyperledger/gateway-provider.service';
 import { Gateway } from 'fabric-network';
+
+interface StartStopTripDTO {
+  ts: String;
+  mac: String;
+}
 
 @Controller()
 export class DeviceInfoController {
@@ -8,15 +13,12 @@ export class DeviceInfoController {
     private readonly _gatewayProviderService: GatewayProviderService) { }
 
   @Post('/start-trip')
-  async startTrip() {
+  async startTrip(@Body() event: StartStopTripDTO) {
     try {
+      if (!event || !event.ts || !event.mac) throw new Error('Invalid parameter: event.');
       const gateway: Gateway = await this._gatewayProviderService.getGateway();
       const network = await gateway.getNetwork('mychannel');
       const contract = network.getContract('fabcar');
-      const event = {
-          ts: new Date().toISOString(),
-          mac: 'C0:FF:EE'
-      };
       await contract.submitTransaction('startTrip', JSON.stringify(event));
       console.log(`Transaction has been evaluated.`);
     } catch (error) {
@@ -26,15 +28,12 @@ export class DeviceInfoController {
   } 
 
   @Post('/end-trip')
-  async endTrip() {
+  async endTrip(@Body() event: StartStopTripDTO) {
     try {
+      if (!event || !event.ts || !event.mac) throw new Error('Invalid parameter: event.');
       const gateway: Gateway = await this._gatewayProviderService.getGateway();
       const network = await gateway.getNetwork('mychannel');
       const contract = network.getContract('fabcar');
-      const event = {
-          ts: new Date().toISOString(),
-          mac: 'C0:FF:EE'
-      };
       await contract.submitTransaction('endTrip', JSON.stringify(event));
       console.log(`Transaction has been evaluated.`);
     } catch (error) {

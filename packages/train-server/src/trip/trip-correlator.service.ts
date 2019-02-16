@@ -91,21 +91,22 @@ export class TripCorrelatorService {
         // TODO: Hop-on/off detection.
         // INtervalle pro mac adresse
         for (let mac of macs) {
-            const byMacDF = timeSliceUnwindDF
+            let byMacDF: any = timeSliceUnwindDF
                 .where((device) => device.mac == mac)
                 .orderBy((device) => device.timeSliceNumber)
-                .take(timeSliceUnwindDF.count() - 1);
-            if (byMacDF.count() < 2) continue;
-            const presenceInformation = new Array(lastTimeSliceNumber).fill(0);
-            byMacDF.forEach((e) => {
+            byMacDF = byMacDF.take(timeSliceUnwindDF.count() - 1); 
+            const c = lastTimeSliceNumber - 1;
+            if (c < 2) continue;
+            const presenceInformation = new Array(c).fill(0.1);
+            for(let e of byMacDF.toArray()) {
                 const index = e.timeSliceNumber;
                 presenceInformation[index] = 1;
-            });
-            for (let i = 0; i < presenceInformation.length; ++i) {
-                if ((i > 0) && i < (presenceInformation.length - 1)) {
+            }
+            for (let i = 0; i < c; ++i) {
+                if ((i > 0) && i < (c - 1)) {
                     const prevValue = presenceInformation[i - 1];
                     const nextValue = presenceInformation[i + 1];
-                    if (prevValue >= 0.8 && nextValue >= 0.8) {
+                    if (presenceInformation[i] < 0.5 && prevValue >= 0.8 && nextValue >= 0.8) {
                         presenceInformation[i] = 0.5;
                     }
                 }

@@ -4,16 +4,20 @@
 
 Invoke `./startFabric.sh` in folder `packages`.
 
-run commands to install the backend for the receiving data from the "train"
+## Install the backend for the receiving data from the "train"
 $ cd packages/train-server/
+
 $ npm install
 
 $ cd packages/train-server/scripts/
+
 $ node 01-enroll-admin.js*
+
 $ node 01-enroll-admin.js*
 
 start the train server
 $ cd packages/train-server/
+
 $ npm start
 
 Ubuntu 18.04 installation:

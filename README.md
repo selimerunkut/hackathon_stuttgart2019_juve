@@ -34,4 +34,5 @@ Failed to evaluate transaction: Error: transaction returned with failure: Error:
 ...Failed at the train-server@0.0.0 start script
 ### execute
 $ cleanupDocker.sh
+
 $ docker rmi hyperledger/fabric-peer

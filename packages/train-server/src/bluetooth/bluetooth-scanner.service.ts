@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Subject, timer } from 'rxjs';
-import * as bluetooth from 'node-bluetooth';
+import { Subject, timer, interval } from 'rxjs';
+import { take } from 'rxjs/operators';
+
+var noble = require('@abandonware/noble');
 
 @Injectable()
 export class BluetoothScannerService {
@@ -15,26 +17,19 @@ export class BluetoothScannerService {
   }
 
   public start() {
-    const device = new bluetooth.DeviceINQ();
+    const foundDevices = [];
+    noble.on('discover', function (peripheral) {
+      foundDevices.push({ mac: peripheral.address, name: peripheral.advertisement.localName, ts: new Date() });
+    });
     timer(0, 30 * 1000).subscribe(() => {
-      const foundDevices = [];
-      device
-        .on('finished', () => {
+      foundDevices.length = 0;
+      noble.startScanning();
+      interval(15 * 1000)
+        .pipe(take(1))
+        .subscribe(() => {
+          noble.stopScanning();
           this._foundDevicesSource.next([...foundDevices]);
-        })
-        .on('found', (mac, name) => {
-          const ts = new Date();
-          if (this._deviceLastSeenAt.has(mac)) {
-            const prevSeenAt = this._deviceLastSeenAt.get(mac);
-            const deltaT = ts.getTime() - prevSeenAt.getTime();
-            if (Math.abs(deltaT) < 2000) return ;
-          }
-          this._deviceLastSeenAt.set(mac, ts)
-          foundDevices.push({
-            mac, name, ts
-          })
-        })
-        .scan();
+        });
     });
   }
 }

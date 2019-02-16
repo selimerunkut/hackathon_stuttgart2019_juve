@@ -24,6 +24,9 @@ export class FabCar extends Contract {
         const event = {type: 'end-trip', payload};
         const id = `${payload.mac}-${payload.ts}`;
         await ctx.stub.putState(id, Buffer.from(JSON.stringify(event)));
+        const serializedStartEvent = await ctx.stub.getState(event.payload.startId);
+        const startEvent = JSON.parse(serializedStartEvent.toString());
+        console.log('startEvent', startEvent);
         console.info('============= END : Create Car ===========');
     }
     

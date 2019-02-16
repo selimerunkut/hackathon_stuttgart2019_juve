@@ -1,14 +1,42 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { DeviceInfoController } from './device-info.controller';
 import { AppService } from './app.service';
 import { WalletProviderService } from './hyperledger/wallet-provider.service';
 import { GatewayProviderService } from './hyperledger/gateway-provider.service';
+import { BluetoothScannerService } from './bluetooth/bluetooth-scanner.service';
+import { MockBluetoothScannerService } from './bluetooth/mock-bluetooth-scanner.service';
+import { TripCorrelatorService } from './trip/trip-correlator.service';
+import { debounceTime } from 'rxjs/operators'
+import { merge } from 'rxjs';
+import { MockController } from './mock.controller';
+import { TripCommitService } from './trip/trip-commit.service';
 
 @Module({
   imports: [],
-  controllers: [DeviceInfoController],
-  providers: [AppService, WalletProviderService, GatewayProviderService],
+  controllers: [DeviceInfoController, MockController],
+  providers: [AppService, WalletProviderService, MockBluetoothScannerService, GatewayProviderService, BluetoothScannerService, TripCorrelatorService, TripCommitService],
 })
-export class AppModule {
+export class AppModule implements OnModuleInit {
+
+  constructor(private _bluetoothScannerService: BluetoothScannerService,
+    private _mockBluetoothScannerService: MockBluetoothScannerService,
+    private _tripCorrelatorService: TripCorrelatorService) { }
+
+  public onModuleInit() {
+
+    let timeSlices = [];
+    merge(
+      //this._bluetoothScannerService.foundDevices$,
+      this._mockBluetoothScannerService.foundDevices$
+    )
+      .pipe(debounceTime(500))
+      .subscribe((newTimeSlice) => {
+        timeSlices.push(newTimeSlice);
+        this._tripCorrelatorService.test(timeSlices);
+      });
+    //this._bluetoothScannerService.start();
+  }
+
+
 
 }

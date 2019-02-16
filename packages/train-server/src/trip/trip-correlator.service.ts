@@ -62,7 +62,7 @@ const TEST_DATA = [
 export class TripCorrelatorService {
 
     public test(timeSlices: any[]) {
-        const lastTimeSliceNumber = timeSlices.length;
+        const lastTimeSliceNumber = timeSlices.length - 1;
         const prepareDevices = (devices): IDataFrame => {
             const preparedDevicesDF = new DataFrame(devices);
             return preparedDevicesDF
@@ -95,8 +95,8 @@ export class TripCorrelatorService {
                 .where((device) => device.mac == mac)
                 .orderBy((device) => device.timeSliceNumber)
             byMacDF = byMacDF.take(timeSliceUnwindDF.count() - 1); 
+            if (byMacDF.count() < 2) continue;
             const c = lastTimeSliceNumber - 1;
-            if (c < 2) continue;
             const presenceInformation = new Array(c).fill(0.1);
             for(let e of byMacDF.toArray()) {
                 const index = e.timeSliceNumber;
@@ -107,11 +107,11 @@ export class TripCorrelatorService {
                     const prevValue = presenceInformation[i - 1];
                     const nextValue = presenceInformation[i + 1];
                     if (presenceInformation[i] < 0.5 && prevValue >= 0.8 && nextValue >= 0.8) {
-                        presenceInformation[i] = 0.5;
+                        presenceInformation[i] = 1;
                     }
                 }
             }
-            console.log('presenceInformation', presenceInformation);
+            console.log('presenceInformation', new DataFrame(presenceInformation.map((v) => v < 0.5 ? '0' : 'X')).toString());
         }
 
         /*

@@ -6,7 +6,7 @@ import { GatewayProviderService } from './hyperledger/gateway-provider.service';
 import { BluetoothScannerService } from './bluetooth/bluetooth-scanner.service';
 import { TripCorrelatorService } from './trip/trip-correlator.service';
 import { DataFrame } from 'data-forge';
-
+import {debounceTime} from 'rxjs/operators'
 
 @Module({
   imports: [],
@@ -21,7 +21,9 @@ export class AppModule implements OnModuleInit {
   public onModuleInit() {
 
   let timeSlices = [];
-    this._bluetoothScannerService.foundDevices$.subscribe((newTimeSlice) => {
+    this._bluetoothScannerService.foundDevices$
+    .pipe(debounceTime(500))
+    .subscribe((newTimeSlice) => {
       timeSlices.push(newTimeSlice);
       this._tripCorrelatorService.test(timeSlices);
     });

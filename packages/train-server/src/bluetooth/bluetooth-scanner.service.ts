@@ -27,7 +27,7 @@ export class BluetoothScannerService {
           if (this._deviceLastSeenAt.has(mac)) {
             const prevSeenAt = this._deviceLastSeenAt.get(mac);
             const deltaT = ts.getTime() - prevSeenAt.getTime();
-            if (Math.abs(deltaT) < 10000) return ;
+            if (Math.abs(deltaT) < 2000) return ;
           }
           this._deviceLastSeenAt.set(mac, ts)
           foundDevices.push({

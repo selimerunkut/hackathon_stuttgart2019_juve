@@ -9,4 +9,6 @@ import { GatewayProviderService } from './hyperledger/gateway-provider.service';
   controllers: [DeviceInfoController],
   providers: [AppService, WalletProviderService, GatewayProviderService],
 })
-export class AppModule {}
+export class AppModule {
+
+}

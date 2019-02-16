@@ -11,11 +11,12 @@ $ npm install
 
 $ cd packages/train-server/scripts/
 
-$ node 01-enroll-admin.js*
+$ node 01-enroll-admin.js
 
-$ node 01-enroll-admin.js*
+$ node 02-register-user.js
 
-start the train server
+## Start the train server
+
 $ cd packages/train-server/
 
 $ npm start

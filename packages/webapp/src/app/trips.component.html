@@ -4,27 +4,9 @@
       <div id="rates">Cost</div>
       </div>
 
-<div id="anbieter">
-<div id="anbietername">
-Anbietername
-<br>
-<div id="anbieternameinfo">
-Departure 17:25 Uhr
-</div>
-</div>
-<div id="anbietertarif">
-<span style="display: block;">{{tripStatus.price | priceDisplay}}</span>
-<div id="anbieternameinfo">
-<span style="display: inline;">{{tripStatus.kilometers | kilometerDisplay}}</span>
- |
-<span style="display: inline;">{{tripStatus.duration | timeFormatDisplay}}</span>
-</div>
-</div>
-</div>
+<trip-list-item [tripStatus]="tripStatus">
 
-<div>
-<img src="/assets/line.png" width="265">
-</div>
+</trip-list-item>
 
 
 <div *ngIf="(historicalTrips$ | async).length > 0">
@@ -37,11 +19,13 @@ Departure 17:25 Uhr
 
    <!--  <div v-for="anbieter in anbieterList"><anbieter :anbietername="anbieter.anbietername" :tarif="anbieter.tarif" :tarifbeschreibung="anbieter.tarifbeschreibung"
     :anbieterbeschreibung="anbieter.anbieterbeschreibung"/></div> -->
-  <div id="fooder">
+  <!--
+    <div id="fooder">
   <a [routerLink]="['/oben']" style="text-decoration: none;">
       <img src="/assets/trips.png" width="90">
   </a>
   </div>
+  -->
   </div>
 
 <!-- <script>

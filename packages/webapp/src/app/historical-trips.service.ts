@@ -10,9 +10,12 @@ export class HistoricalTripsService {
     private _historicalTrips = [];
 
     public commitStashed() {
-        const stashedHistoricalTrips = [...this._stashedHistoricalTrips];
+        const stashedHistoricalTrips = [...this._stashedHistoricalTrips.reverse()];
         this._stashedHistoricalTrips.length = 0;
-        this._historicalTrips.push(...stashedHistoricalTrips);
+        const nextHistoricalTrips =  [...stashedHistoricalTrips, ...this._historicalTrips];
+        nextHistoricalTrips.length = Math.min(nextHistoricalTrips.length, 4);
+        this._historicalTrips.length = 0;
+        this._historicalTrips.push(...nextHistoricalTrips);
         this.historicalTrips$.next(this._historicalTrips);
     }
 

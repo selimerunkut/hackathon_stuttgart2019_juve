@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { GatewayProviderService } from 'src/hyperledger/gateway-provider.service';
 import { Gateway } from 'fabric-network';
@@ -44,6 +44,9 @@ export class TripStatusService {
     }
 
     public async getTripStatus(mac: string) {
+        if (!this._devicesFirstSeen.has(mac)) {
+            throw new HttpException('Invalid MAC.', HttpStatus.NOT_FOUND);
+        }
         const tripId = this._tripIdForDevice.get(mac);
         const kilometers = this.getKilometersOfTrip(mac);
         let status: any = {

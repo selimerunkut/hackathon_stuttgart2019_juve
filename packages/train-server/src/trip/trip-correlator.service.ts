@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { DataFrame, IDataFrame } from 'data-forge';
 import { TripCommitService } from './trip-commit.service';
-import { TripStatusService } from './trip-status.service';
 import * as path from 'path';
+import { FailsafeService } from 'src/shared/failsafe.service';
 
 const VALID_MACS = require(path.join('../config/valid_macs.json'));
 
@@ -12,11 +12,15 @@ export class TripCorrelatorService {
     private _lastCommitStart = NaN;
     private _lastCommitEnd = NaN;
 
-    constructor(private _tripCommitService: TripCommitService) {
+    constructor(
+        private _tripCommitService: TripCommitService,
+        private _failsafeService: FailsafeService) {
 
     }
 
+    // TODO: Needs refactoring (extract method, renames, cleanup).
     public test(timeSlices: any[]) {
+        const whitelistedMacs = this._failsafeService.isFailsafeEnabled ? [] : VALID_MACS
         const lastTimeSliceNumber = timeSlices.length - 1;
         const prepareDevices = (devices): IDataFrame => {
             const preparedDevicesDF = new DataFrame(devices);
@@ -44,7 +48,7 @@ export class TripCorrelatorService {
         console.log('timeSliceUnwindDF', timeSliceUnwindDF.toString());
         const macs = timeSliceUnwindDF.getSeries('mac')
             .distinct()
-            .where((e) => VALID_MACS.indexOf(e) >= 0)
+            .where((e) => whitelistedMacs.indexOf(e) >= 0)
             .toArray();
 
         // TODO: Hop-on/off detection.
@@ -120,20 +124,6 @@ export class TripCorrelatorService {
             }
         }
 
-        /*
-        const modifiedDF = timeSlicesDF
-        .groupBy((timeSlice) => null)
-        .select((timeSlices: DataFrame) => {
-            console.log(timeSlices.toString());
-            return timeSlices.select((timeSlice) => {
-                timeSlice.
-            })
-            console.log(timeSlices.getIndex().toArray());
-        })
-        console.log(modifiedDF.toString());
-*/
-        //timeSlicesDF = timeSlicesDF.withSeries('timeSeriesNumber', indexSeries);
-        //console.log(timeSlicesDF.toString());
     }
 
 }

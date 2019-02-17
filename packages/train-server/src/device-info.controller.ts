@@ -3,12 +3,16 @@ import { GatewayProviderService } from './hyperledger/gateway-provider.service';
 import { Gateway } from 'fabric-network';
 import { TripStatusService } from './trip/trip-status.service';
 import { StartStopTripDTO } from './trip/start-stop-trip.dto';
+import { TripCorrelatorService } from './trip/trip-correlator.service';
+import { FailsafeService } from './shared/failsafe.service';
 
 @Controller()
 export class DeviceInfoController {
   constructor(
     private readonly _gatewayProviderService: GatewayProviderService,
-    private readonly _tripStatusService: TripStatusService
+    private readonly _tripStatusService: TripStatusService,
+    private readonly _tripCorrelatorService: TripCorrelatorService,
+    private readonly _failsafeService: FailsafeService
     ) { }
 
   @Post('/start-trip')
@@ -72,6 +76,20 @@ export class DeviceInfoController {
       console.error(`Failed to evaluate transaction: ${error}`);
       process.exit(1);
     }
+  }
+
+  @Get('/demo/failsafe-on')
+  async demoFailSafeOn() {
+    this._failsafeService.isFailsafeEnabled = true;
+    console.warn('### Failsafe On ###');
+    return Promise.resolve('FAILSAFE ON');
+  }
+
+  @Get('/demo/failsafe-off')
+  async demoFailSafeOff() {
+    this._failsafeService.isFailsafeEnabled = false;
+    console.warn('### Failsafe Off ###');
+    return Promise.resolve('FAILSAFE OFF');
   }
 
 }

@@ -9,15 +9,16 @@ import { TripCorrelatorService } from './trip/trip-correlator.service';
 import { TripStatusService } from './trip/trip-status.service';
 import { MacHasherService } from './trip/mac-hasher.service';
 import { debounceTime, map } from 'rxjs/operators'
-import { merge, timer } from 'rxjs';
+import { merge } from 'rxjs';
 import { MockController } from './mock.controller';
 import { TripCommitService } from './trip/trip-commit.service';
 import { WebsocketService } from './trip/websocket.service';
+import { FailsafeService } from './shared/failsafe.service';
 
 @Module({
   imports: [],
   controllers: [DeviceInfoController, MockController],
-  providers: [AppService, WalletProviderService, MockBluetoothScannerService, GatewayProviderService, BluetoothScannerService, TripCorrelatorService, TripCommitService, TripStatusService, MacHasherService, WebsocketService],
+  providers: [AppService, WalletProviderService, MockBluetoothScannerService, GatewayProviderService, BluetoothScannerService, TripCorrelatorService, TripCommitService, TripStatusService, MacHasherService, WebsocketService, FailsafeService],
 })
 export class AppModule implements OnModuleInit {
 

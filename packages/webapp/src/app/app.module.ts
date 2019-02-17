@@ -13,6 +13,14 @@ import { Header } from './header.component';
 import { TripStatusUpdateService } from './trip-status-update.service';
 import { HttpModule } from '@angular/http';
 import { PriceDisplayPipe } from './shared/price-display.pipe';
+import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+
+registerLocaleData(en);
 axios.defaults.baseURL = 'http://localhost:3000';
 
 @NgModule({
@@ -28,14 +36,15 @@ axios.defaults.baseURL = 'http://localhost:3000';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpModule
+    HttpModule,
+    NgZorroAntdModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
-  providers: [TripStatusUpdateService],
+  providers: [TripStatusUpdateService, { provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
-
-
 
  }

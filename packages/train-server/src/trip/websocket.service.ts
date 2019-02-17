@@ -6,10 +6,11 @@ export class WebsocketService implements OnGatewayConnection {
     @WebSocketServer() public wss;
 
     handleConnection(client: any, ...args: any[]) {
-        return ;
-        client.emit('hello')
-        client.on('message', (msg) => {
-            console.log(msg);
-        });
+        
     }
+
+    public sendEvent(event: any) {
+        this.wss.emit('message', event);
+    }
+
 }

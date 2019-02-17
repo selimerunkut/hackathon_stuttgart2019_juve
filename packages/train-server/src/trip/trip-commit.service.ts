@@ -30,7 +30,7 @@ export class TripCommitService {
       const contract = network.getContract('fabcar');
       await contract.submitTransaction('startTrip', JSON.stringify(payload));
       console.log(`Transaction has been evaluated.`);
-      this._websocketService.wss.emit('message', {type: 'TripStarted'});
+      this._websocketService.sendEvent({type: 'TripStarted'});
     } catch (error) {
       console.error(`Failed to evaluate transaction: ${error}`);
       process.exit(1);
@@ -46,6 +46,7 @@ export class TripCommitService {
       await contract.submitTransaction('endTrip', JSON.stringify(event));
       console.log(`Transaction has been evaluated.`);
       this._tripStatusService.getTripStatus(event.mac);
+      this._websocketService.sendEvent({type: 'TripEnded'});
     } catch (error) {
       console.error(`Failed to evaluate transaction: ${error}`);
       process.exit(1);

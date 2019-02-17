@@ -1,9 +1,16 @@
 <div id="header">
     <div id="logo">
-        <a href="index.html" style="text-decoration: none;">
+        <a style="text-decoration: none;">
             <img src="/assets/logo.png" width="20">
         </a>
     </div>
-    <div id="rate">Rates</div>
-    <div id="price">{{ price | priceDisplay }}</div>
+    <div id="rate">{{title}}</div>
+    <div id="price">
+        <span *ngIf="tripStatus.completed" class="trip-completed">
+            {{ tripStatus.price | priceDisplay }}
+        </span>
+        <span *ngIf="!tripStatus.completed">
+            {{ tripStatus.price | priceDisplay }}
+        </span>
+    </div>
 </div>

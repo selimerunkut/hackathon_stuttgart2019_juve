@@ -3,6 +3,7 @@
  */
 
 import { Context, Contract } from 'fabric-contract-api';
+const KILOMETERS_PER_SECOND = 0.02;
 
 export class FabCar extends Contract {
 
@@ -30,7 +31,6 @@ export class FabCar extends Contract {
         console.log('startEvent', startEvent);
         const tripId = startEvent.payload.tripId;
         const duration = (new Date(endEvent.payload.ts).getTime() - new Date(startEvent.payload.ts).getTime()) / 1000;
-        const KILOMETERS_PER_SECOND = 0.02;
         const kilometers = duration * KILOMETERS_PER_SECOND;
         const travelRate = startEvent.payload.travelRate;
         const price = kilometers * travelRate;

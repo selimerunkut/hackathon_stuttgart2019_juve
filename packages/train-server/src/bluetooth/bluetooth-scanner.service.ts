@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Subject, timer, interval } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { BLUETOOTH_SCAN_INTERVAL, BLUETOOTH_SCAN_CANCEL_TIMEOUT } from 'src/shared/consts';
 
 var noble = require('@abandonware/noble');
 
@@ -19,10 +20,10 @@ export class BluetoothScannerService {
     noble.on('discover', function (peripheral) {
       foundDevices.push({ mac: peripheral.address, name: peripheral.advertisement.localName, ts: new Date() });
     });
-    timer(0, 30 * 1000).subscribe(() => {
+    timer(0, BLUETOOTH_SCAN_INTERVAL).subscribe(() => {
       foundDevices.length = 0;
       noble.startScanning();
-      interval(15 * 1000)
+      interval(BLUETOOTH_SCAN_CANCEL_TIMEOUT)
         .pipe(take(1))
         .subscribe(() => {
           noble.stopScanning();

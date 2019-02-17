@@ -2,8 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { GatewayProviderService } from 'src/hyperledger/gateway-provider.service';
 import { Gateway } from 'fabric-network';
-import { isArray } from 'util';
-
+import { KILOMETERS_PER_SECOND } from '../shared/consts';
 
 @Injectable()
 export class TripStatusService {
@@ -39,7 +38,6 @@ export class TripStatusService {
     }
 
     public getKilometersOfTrip(mac: string) {
-        const KILOMETERS_PER_SECOND = 0.02;
         const duration = this.getTripDuration(mac);
         const kilometers = duration * KILOMETERS_PER_SECOND;
         return kilometers;
@@ -58,7 +56,7 @@ export class TripStatusService {
         if (!!tripId && this.travelRateByTripId.has(tripId)) {
             const travelRate = this.travelRateByTripId.get(tripId);
             const price = kilometers * travelRate;
-            status = {...status, price};
+            status = { ...status, price };
         }
         const gateway: Gateway = await this._gatewayProviderService.getGateway();
         const network = await gateway.getNetwork('mychannel');
@@ -68,7 +66,7 @@ export class TripStatusService {
         let tripEvent: any = null;
         if (!!tripId) tripEvent = allEvents.filter((e: any) => e.type == 'trip-completed' && e.payload.tripId == tripId)[0];
         if (!!tripEvent) {
-            status = {...status, ...tripEvent.payload, completed: true};
+            status = { ...status, ...tripEvent.payload, completed: true };
             delete status.startId;
             //delete status.endId;
         }

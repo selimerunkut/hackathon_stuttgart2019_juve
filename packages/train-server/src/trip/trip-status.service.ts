@@ -70,7 +70,7 @@ export class TripStatusService {
         if (!!tripEvent) {
             status = {...status, ...tripEvent.payload, completed: true};
             delete status.startId;
-            delete status.endId;
+            //delete status.endId;
         }
         if (!!tripId) this.tripStatusById.set(tripId, status);
         return Promise.resolve(status);

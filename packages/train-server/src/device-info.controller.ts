@@ -47,9 +47,15 @@ export class DeviceInfoController {
     return Promise.resolve(status);
   }
 
+  @Get('/trip-status')
+  public getAllTripStatus() {
+    const tripStatusResults = Array.from(this._tripStatusService.tripStatusById.values());
+    return Promise.resolve(tripStatusResults);
+  }
+
   @Get('/trip-status/:id')
-  async getCurrenTripStatusById(@Param('id') id: string) {
-    const status = await this._tripStatusService.tripStatusById.get(id);
+  public getCurrenTripStatusById(@Param('id') id: string) {
+    const status = this._tripStatusService.tripStatusById.get(id);
     return Promise.resolve(status);
   }
 

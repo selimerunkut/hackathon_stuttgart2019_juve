@@ -1,6 +1,8 @@
 export interface StartStopTripDTO {
-    ts: String;
-    mac: String;
+  tripId?: string;
+    ts: string;
+    mac: string;
     startId?:string;
+    travelRate?:number;
   }
   

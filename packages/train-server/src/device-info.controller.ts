@@ -41,20 +41,16 @@ export class DeviceInfoController {
     }
   }
 
-  @Get('/trip-status/:mac')
-  async getCurrenTripStatus(@Param('mac') mac: string) {
-  
-    const duration = this._tripStatusService.getTripDuration(mac);
-    const kilometres = this._tripStatusService.getKilometersOfTrip(mac);
-    const startDate = this._tripStatusService.getStartDateOfTrip(mac);
-    return Promise.resolve({
-      duration,
-      kilometres,
-      departure: 'Böblingen',
-      nextStop: 'Goldberg',
-      direction: 'München',
-      startDate
-    });
+  @Get('/trip-status-by-device/:mac')
+  async getCurrenTripStatusByDevice(@Param('mac') mac: string) {
+    const status = await this._tripStatusService.getTripStatus(mac);
+    return Promise.resolve(status);
+  }
+
+  @Get('/trip-status/:id')
+  async getCurrenTripStatusById(@Param('id') id: string) {
+    const status = await this._tripStatusService.tripStatusById.get(id);
+    return Promise.resolve(status);
   }
 
   @Get()

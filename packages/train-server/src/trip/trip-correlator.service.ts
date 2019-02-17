@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DataFrame, Series, IDataFrame } from 'data-forge';
 import { TripCommitService } from './trip-commit.service';
+import { TripStatusService } from './trip-status.service';
 
 const TEST_DATA = [
     {
@@ -65,7 +66,8 @@ export class TripCorrelatorService {
     private _lastCommitStart = NaN;
     private _lastCommitEnd = NaN;
 
-    constructor(private _tripCommitService: TripCommitService) {
+    constructor(private _tripCommitService: TripCommitService,
+        private _tripStatusService: TripStatusService) {
 
     }
 
@@ -167,7 +169,8 @@ export class TripCorrelatorService {
                         .first().ts.toISOString();
                     const startId = `${mac}-${startTripTs}`;
                     this._tripCommitService.endTrip({ts, mac, startId});
-                    this._lastCommitEnd= possibleTripEnd;
+                    this._lastCommitEnd = possibleTripEnd;
+
                 }
             }
         }

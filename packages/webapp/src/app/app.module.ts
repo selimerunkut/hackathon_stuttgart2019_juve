@@ -13,7 +13,7 @@ import { Header } from './header.component';
 import { TripStatusUpdateService } from './trip-status-update.service';
 import { HttpModule } from '@angular/http';
 import { PriceDisplayPipe } from './shared/price-display.pipe';
-import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NZ_I18N, en_US, NZ_MESSAGE_CONFIG } from 'ng-zorro-antd';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,15 +21,14 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { KilometerDisplayPipe } from './shared/kilometer-display.pipe';
 import { TimeFormatDisplayPipe } from './shared/time-format-display.pipe';
-
-const DEFAULT_BASE_URL = 'http://localhost:3000';
+import { BASE_URL, APP_NZ_MESSAGE_CONFIG } from './shared/consts';
 
 registerLocaleData(en);
 const setBaseUrl = (baseURL) => {
   axios.defaults.baseURL = baseURL;
 };
 (window as any).setBaseUrl = setBaseUrl;
-setBaseUrl(DEFAULT_BASE_URL);
+setBaseUrl(BASE_URL);
 
 @NgModule({
   declarations: [
@@ -52,9 +51,13 @@ setBaseUrl(DEFAULT_BASE_URL);
     HttpClientModule,
     BrowserAnimationsModule
   ],
-  providers: [TripStatusUpdateService, { provide: NZ_I18N, useValue: en_US }],
+  providers: [
+    { provide: NZ_MESSAGE_CONFIG, useValue: APP_NZ_MESSAGE_CONFIG },
+    { provide: NZ_I18N, useValue: en_US },
+    TripStatusUpdateService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 
- }
+}

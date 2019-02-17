@@ -3,6 +3,7 @@ import * as io from 'socket.io-client';
 import { TripStatusUpdateService } from './trip-status-update.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { Router } from '@angular/router';
+import { SOCKET_IO_URL } from './shared/consts';
 
 
 @Component({
@@ -23,14 +24,14 @@ export class AppComponent implements OnInit {
     this._tripStatusUpdateService.tripStatus$.subscribe(() => {
       this.tripStatus = this._tripStatusUpdateService.tripStatus;
     });
-    const socket = io('http://localhost:3100');
+    const socket = io(SOCKET_IO_URL);
     socket.on('message', (data) => {
       const event = (data);
       if (event.type == 'TripStarted') {
-        this._nzMessageService.loading('You just got on the Blockchain train!', { nzDuration: 1500 });
+        this._nzMessageService.loading('You just got on the Blockchain train!');
       }
       if (event.type == 'TripEnded') {
-        this._nzMessageService.success('Thank you for travelling with the Blockchain!', { nzDuration: 1500 });
+        this._nzMessageService.success('Thank you for travelling with the Blockchain!');
       }
     });
   }

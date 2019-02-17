@@ -8,6 +8,7 @@ import { AnbieterComponent } from './anbieter.component';
 import { TripsComponent } from './trips.component';
 
 import axios from 'axios';
+import { NewTripModalComponent } from './new-trip-modal.component';
 axios.defaults.baseURL = 'http://localhost:3000';
 
 @NgModule({
@@ -15,7 +16,8 @@ axios.defaults.baseURL = 'http://localhost:3000';
     AppComponent,
     ObenComponent,
     AnbieterComponent,
-    TripsComponent
+    TripsComponent,
+    NewTripModalComponent
   ],
   imports: [
     BrowserModule,

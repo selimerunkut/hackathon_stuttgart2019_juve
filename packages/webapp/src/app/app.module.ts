@@ -22,6 +22,8 @@ import en from '@angular/common/locales/en';
 import { KilometerDisplayPipe } from './shared/kilometer-display.pipe';
 import { TimeFormatDisplayPipe } from './shared/time-format-display.pipe';
 import { BASE_URL, APP_NZ_MESSAGE_CONFIG } from './shared/consts';
+import { TripListItem } from './trip-list-item.component';
+import { HistoricalTripsService } from './historical-trips.service';
 
 registerLocaleData(en);
 const setBaseUrl = (baseURL) => {
@@ -40,7 +42,8 @@ setBaseUrl(BASE_URL);
     Header,
     PriceDisplayPipe,
     KilometerDisplayPipe,
-    TimeFormatDisplayPipe
+    TimeFormatDisplayPipe,
+    TripListItem
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,8 @@ setBaseUrl(BASE_URL);
   providers: [
     { provide: NZ_MESSAGE_CONFIG, useValue: APP_NZ_MESSAGE_CONFIG },
     { provide: NZ_I18N, useValue: en_US },
-    TripStatusUpdateService
+    TripStatusUpdateService,
+    HistoricalTripsService
   ],
   bootstrap: [AppComponent]
 })

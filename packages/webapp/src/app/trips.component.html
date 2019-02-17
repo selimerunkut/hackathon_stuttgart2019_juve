@@ -27,7 +27,11 @@ Departure 17:25 Uhr
 </div>
 
 
-
+<div *ngIf="(historicalTrips$ | async).length > 0">
+<trip-list-item *ngFor="let historicalTripStatus of (historicalTrips$ | async)" [tripStatus]="historicalTripStatus">
+  
+  </trip-list-item>
+</div>
 
 <!-- <span style="display: block; font-size: 8px; color: lightgray">{{tripStatus | json}}</span> -->
 

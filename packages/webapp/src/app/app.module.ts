@@ -19,9 +19,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
+import { KilometerDisplayPipe } from './shared/kilometer-display.pipe';
+import { TimeFormatDisplayPipe } from './shared/time-format-display.pipe';
+
+const DEFAULT_BASE_URL = 'http://localhost:3000';
 
 registerLocaleData(en);
-axios.defaults.baseURL = 'http://localhost:3000';
+const setBaseUrl = (baseURL) => {
+  axios.defaults.baseURL = baseURL;
+};
+(window as any).setBaseUrl = setBaseUrl;
+setBaseUrl(DEFAULT_BASE_URL);
 
 @NgModule({
   declarations: [
@@ -31,7 +39,9 @@ axios.defaults.baseURL = 'http://localhost:3000';
     TripsComponent,
     NewTripModalComponent,
     Header,
-    PriceDisplayPipe
+    PriceDisplayPipe,
+    KilometerDisplayPipe,
+    TimeFormatDisplayPipe
   ],
   imports: [
     BrowserModule,

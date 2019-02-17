@@ -1,2 +1,5 @@
 <h1>Trips!</h1>
-<span>{{tripStatus | json}}</span>
+<span style="display: block;">{{tripStatus.kilometers | kilometerDisplay}}</span>
+<span style="display: block;">{{tripStatus.duration | timeFormatDisplay}}</span>
+<span style="display: block;">{{tripStatus.price | priceDisplay}}</span>
+<span style="display: block; font-size: 8px; color: lightgray">{{tripStatus | json}}</span>

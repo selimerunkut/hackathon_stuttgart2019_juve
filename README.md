@@ -34,7 +34,7 @@ $ npm start
 
 $ cd packages/train-server/scripts
 
-node mock-bt-scan.js
+$ node mock-bt-scan.js
 
 
 ## Troubleshooting

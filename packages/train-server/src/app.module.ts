@@ -6,6 +6,7 @@ import { GatewayProviderService } from './hyperledger/gateway-provider.service';
 import { BluetoothScannerService } from './bluetooth/bluetooth-scanner.service';
 import { MockBluetoothScannerService } from './bluetooth/mock-bluetooth-scanner.service';
 import { TripCorrelatorService } from './trip/trip-correlator.service';
+import { TripStatusService } from './trip/trip-status.service';
 import { debounceTime } from 'rxjs/operators'
 import { merge } from 'rxjs';
 import { MockController } from './mock.controller';
@@ -14,26 +15,32 @@ import { TripCommitService } from './trip/trip-commit.service';
 @Module({
   imports: [],
   controllers: [DeviceInfoController, MockController],
-  providers: [AppService, WalletProviderService, MockBluetoothScannerService, GatewayProviderService, BluetoothScannerService, TripCorrelatorService, TripCommitService],
+  providers: [AppService, WalletProviderService, MockBluetoothScannerService, GatewayProviderService, BluetoothScannerService, TripCorrelatorService, TripCommitService, TripStatusService],
 })
 export class AppModule implements OnModuleInit {
 
-  constructor(private _bluetoothScannerService: BluetoothScannerService,
+  constructor(
+    private _bluetoothScannerService: BluetoothScannerService,
     private _mockBluetoothScannerService: MockBluetoothScannerService,
-    private _tripCorrelatorService: TripCorrelatorService) { }
+    private _tripCorrelatorService: TripCorrelatorService,
+    private _tripStatusService: TripStatusService,
+    ) { }
 
   public onModuleInit() {
 
     let timeSlices = [];
-    merge(
-      //this._bluetoothScannerService.foundDevices$,
-      this._mockBluetoothScannerService.foundDevices$
-    )
+    const foundDevices$ =
+      merge(
+        //this._bluetoothScannerService.foundDevices$,
+        this._mockBluetoothScannerService.foundDevices$
+      );
+    foundDevices$
       .pipe(debounceTime(500))
       .subscribe((newTimeSlice) => {
         timeSlices.push(newTimeSlice);
         this._tripCorrelatorService.test(timeSlices);
       });
+      this._tripStatusService.initialize(foundDevices$);
     //this._bluetoothScannerService.start();
   }
 

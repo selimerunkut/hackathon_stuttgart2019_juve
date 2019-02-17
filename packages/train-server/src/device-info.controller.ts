@@ -1,16 +1,15 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { GatewayProviderService } from './hyperledger/gateway-provider.service';
 import { Gateway } from 'fabric-network';
-
-interface StartStopTripDTO {
-  ts: String;
-  mac: String;
-}
+import { TripStatusService } from './trip/trip-status.service';
+import { StartStopTripDTO } from './trip/start-stop-trip.dto';
 
 @Controller()
 export class DeviceInfoController {
   constructor(
-    private readonly _gatewayProviderService: GatewayProviderService) { }
+    private readonly _gatewayProviderService: GatewayProviderService,
+    private readonly _tripStatusService: TripStatusService
+    ) { }
 
   @Post('/start-trip')
   async startTrip(@Body() event: StartStopTripDTO) {
@@ -44,10 +43,10 @@ export class DeviceInfoController {
 
   @Get('/trip-status/:mac')
   async getCurrenTripStatus(@Param('mac') mac: string) {
-    const KILOMETERS_PER_SECOND = 0.02;
-    const duration = 235.2;
-    const kilometres = duration * KILOMETERS_PER_SECOND;
-    const startDate = new Date();
+  
+    const duration = this._tripStatusService.getTripDuration(mac);
+    const kilometres = this._tripStatusService.getKilometersOfTrip(mac);
+    const startDate = this._tripStatusService.getStartDateOfTrip(mac);
     return Promise.resolve({
       duration,
       kilometres,

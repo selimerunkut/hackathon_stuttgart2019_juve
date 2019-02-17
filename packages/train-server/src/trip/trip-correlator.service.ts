@@ -109,7 +109,7 @@ export class TripCorrelatorService {
             byMacDF = byMacDF.take(timeSliceUnwindDF.count() - 1);
             if (byMacDF.count() < 2) continue;
             const c = lastTimeSliceNumber - 1;
-            const presenceInformation = new Array(c).fill(0.1);
+            const presenceInformation = new Array(c).fill(0);
             for (let e of byMacDF.toArray()) {
                 const index = e.timeSliceNumber;
                 presenceInformation[index] = 1;
@@ -123,7 +123,7 @@ export class TripCorrelatorService {
                     }
                 }
             }
-            console.log('presenceInformation', new DataFrame(presenceInformation.map((v) => v < 0.5 ? '0' : 'X')).toString());
+            console.log('presenceInformation', presenceInformation);
             const byMac = byMacDF.toArray();
             for (let i = 0; i < byMac.length; ++i) {
                 byMac[i].deltaTimeSliceNumber = i == 0 ? NaN :

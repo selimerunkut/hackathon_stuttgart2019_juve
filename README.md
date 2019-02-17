@@ -5,6 +5,7 @@
 Invoke `./startFabric.sh` in folder `packages`.
 
 ## Install the backend for the receiving data from the "train"
+# use node version 10.15.1
 $ cd packages/train-server/
 
 $ npm install

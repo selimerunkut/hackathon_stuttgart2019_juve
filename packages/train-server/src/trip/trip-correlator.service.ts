@@ -1,64 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { DataFrame, Series, IDataFrame } from 'data-forge';
+import { DataFrame, IDataFrame } from 'data-forge';
 import { TripCommitService } from './trip-commit.service';
 import { TripStatusService } from './trip-status.service';
+import * as path from 'path';
 
-const TEST_DATA = [
-    {
-        "mac": "C8:94:BB:E9:EE:52",
-        "name": "Telefon Jos",
-        "ts": "2019-02-16T16:38:28.600Z"
-    },
-    {
-        "mac": "C8:94:BB:E9:EE:52",
-        "name": "Telefon Jos",
-        "ts": "2019-02-16T16:38:58.600Z"
-    },
-    {
-        "mac": "C8:94:BB:E9:EE:52",
-        "name": "Telefon Jos",
-        "ts": "2019-02-16T16:39:28.600Z"
-    },
-    {
-        "mac": "C8:94:BB:E9:EE:52",
-        "name": "Telefon Jos",
-        "ts": "2019-02-16T16:39:58.600Z"
-    },
-    {
-        "mac": "C8:94:BB:E9:EE:52",
-        "name": "Telefon Jos",
-        "ts": "2019-02-16T16:40:28.600Z"
-    },
-    {
-        "mac": "C8:94:BB:E9:EE:52",
-        "name": "Telefon Jos",
-        "ts": "2019-02-16T16:40:58.600Z"
-    },
-    {
-        "mac": "C8:94:BB:E9:EE:52",
-        "name": "Telefon Jos",
-        "ts": "2019-02-16T16:41:28.600Z"
-    },
-    {
-        "mac": "C8:94:BB:E9:EE:52",
-        "name": "Telefon Jos",
-        "ts": "2019-02-16T16:41:58.600Z"
-    },
-    {
-        "mac": "C8:94:BB:E9:EE:52",
-        "name": "Telefon Jos",
-        "ts": "2019-02-16T16:42:28.600Z"
-    },
-    {
-        "mac": "9f:8a:6e",
-        "ts": "2019-02-16T16:42:34.600Z"
-    },
-    {
-        "mac": "C8:94:BB:E9:EE:52",
-        "name": "Telefon Jos",
-        "ts": "2019-02-16T16:42:58.600Z"
-    }
-];
+const VALID_MACS = require(path.join('../config/valid_macs.json'));
 
 @Injectable()
 export class TripCorrelatorService {
@@ -66,8 +12,7 @@ export class TripCorrelatorService {
     private _lastCommitStart = NaN;
     private _lastCommitEnd = NaN;
 
-    constructor(private _tripCommitService: TripCommitService,
-        private _tripStatusService: TripStatusService) {
+    constructor(private _tripCommitService: TripCommitService) {
 
     }
 
@@ -99,7 +44,7 @@ export class TripCorrelatorService {
         console.log('timeSliceUnwindDF', timeSliceUnwindDF.toString());
         const macs = timeSliceUnwindDF.getSeries('mac')
             .distinct()
-            .where((e) => e.toUpperCase() == "C8:94:BB:E9:EE:52")
+            .where((e) => VALID_MACS.indexOf(e) >= 0)
             .toArray();
 
         // TODO: Hop-on/off detection.

@@ -7,7 +7,8 @@ import { BluetoothScannerService } from './bluetooth/bluetooth-scanner.service';
 import { MockBluetoothScannerService } from './bluetooth/mock-bluetooth-scanner.service';
 import { TripCorrelatorService } from './trip/trip-correlator.service';
 import { TripStatusService } from './trip/trip-status.service';
-import { debounceTime } from 'rxjs/operators'
+import { MacHasherService } from './trip/mac-hasher.service';
+import { debounceTime, map } from 'rxjs/operators'
 import { merge } from 'rxjs';
 import { MockController } from './mock.controller';
 import { TripCommitService } from './trip/trip-commit.service';
@@ -15,7 +16,7 @@ import { TripCommitService } from './trip/trip-commit.service';
 @Module({
   imports: [],
   controllers: [DeviceInfoController, MockController],
-  providers: [AppService, WalletProviderService, MockBluetoothScannerService, GatewayProviderService, BluetoothScannerService, TripCorrelatorService, TripCommitService, TripStatusService],
+  providers: [AppService, WalletProviderService, MockBluetoothScannerService, GatewayProviderService, BluetoothScannerService, TripCorrelatorService, TripCommitService, TripStatusService, MacHasherService],
 })
 export class AppModule implements OnModuleInit {
 
@@ -24,23 +25,34 @@ export class AppModule implements OnModuleInit {
     private _mockBluetoothScannerService: MockBluetoothScannerService,
     private _tripCorrelatorService: TripCorrelatorService,
     private _tripStatusService: TripStatusService,
-    ) { }
+    private _macHasherService: MacHasherService
+  ) { }
+
+
+  private mapDevice(device: any) {
+    return {
+      ...device,
+      mac: this._macHasherService.hashMac(device.mac)
+    };
+  }
 
   public onModuleInit() {
-
     let timeSlices = [];
     const foundDevices$ =
       merge(
         //this._bluetoothScannerService.foundDevices$,
         this._mockBluetoothScannerService.foundDevices$
-      );
+      )
+        .pipe(
+          debounceTime(100),
+          map((devices: any[]) => devices.map((device: any) => this.mapDevice(device)))
+        );
     foundDevices$
-      .pipe(debounceTime(500))
       .subscribe((newTimeSlice) => {
         timeSlices.push(newTimeSlice);
         this._tripCorrelatorService.test(timeSlices);
       });
-      this._tripStatusService.initialize(foundDevices$);
+    this._tripStatusService.initialize(foundDevices$);
     //this._bluetoothScannerService.start();
   }
 

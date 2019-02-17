@@ -9,11 +9,13 @@ import { TripCorrelatorService } from './trip/trip-correlator.service';
 import { TripStatusService } from './trip/trip-status.service';
 import { MacHasherService } from './trip/mac-hasher.service';
 import { debounceTime, map } from 'rxjs/operators'
-import { merge } from 'rxjs';
+import { merge, Observable } from 'rxjs';
 import { MockController } from './mock.controller';
 import { TripCommitService } from './trip/trip-commit.service';
 import { WebsocketService } from './trip/websocket.service';
 import { FailsafeService } from './shared/failsafe.service';
+import { MOCK_BLUETOOTH } from './shared/consts';
+import { BaseBluetoothScannerService } from './bluetooth/base-bluetooth-scanner.service';
 
 @Module({
   imports: [],
@@ -40,12 +42,13 @@ export class AppModule implements OnModuleInit {
   }
 
   public onModuleInit() {
+    const scannerServices: BaseBluetoothScannerService[] = [
+      !MOCK_BLUETOOTH ? this._bluetoothScannerService : null,
+      MOCK_BLUETOOTH ? this._mockBluetoothScannerService : null,
+    ].filter((e) => !!e);
     let timeSlices = [];
     const foundDevices$ =
-      merge(
-        //this._bluetoothScannerService.foundDevices$,
-        this._mockBluetoothScannerService.foundDevices$
-      )
+      merge(...scannerServices.map((e) => e.foundDevices$))
         .pipe(
           debounceTime(100),
           map((devices: any[]) => devices.map((device: any) => this.mapDevice(device)))
@@ -56,11 +59,7 @@ export class AppModule implements OnModuleInit {
         this._tripCorrelatorService.test(timeSlices);
       });
     this._tripStatusService.initialize(foundDevices$);
-    //this._bluetoothScannerService.start();
-    /*
-    timer(0,1000)
-      .subscribe(() => 
-      */
+    for (let scannerService of scannerServices) scannerService.start();
   }
 
 

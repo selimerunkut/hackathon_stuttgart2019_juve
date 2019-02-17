@@ -1,18 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { Subject, timer, interval } from 'rxjs';
+import { BaseBluetoothScannerService } from './base-bluetooth-scanner.service';
 
 @Injectable()
-export class MockBluetoothScannerService {
+export class MockBluetoothScannerService extends BaseBluetoothScannerService {
 
-  private _foundDevicesSource = new Subject();
-  private _foundDevices$ = this._foundDevicesSource.asObservable();
-
-
-  public get foundDevices$() {
-    return this._foundDevices$;
+  public pushDevices(devices) {
+    this._foundDevicesSource.next(devices);
   }
 
-public pushDevices(devices) {
-    this._foundDevicesSource.next(devices);
-}
 }

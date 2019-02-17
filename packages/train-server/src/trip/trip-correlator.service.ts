@@ -50,9 +50,6 @@ export class TripCorrelatorService {
             .distinct()
             .where((e) => whitelistedMacs.indexOf(e) >= 0)
             .toArray();
-
-        // TODO: Hop-on/off detection.
-        // INtervalle pro mac adresse
         for (let mac of macs) {
             let byMacDF: any = timeSliceUnwindDF
                 .where((device) => device.mac == mac)

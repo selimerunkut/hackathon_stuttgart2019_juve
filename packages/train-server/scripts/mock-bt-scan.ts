@@ -19,8 +19,8 @@ const payload2 = {
 };
 
 
-timer(0, 3000)
+timer(0, 1000)
     .subscribe((counter) => {
-        counter = counter % 10;
-        axios.post('http://localhost:3000/mock/bluetooth-scan', (counter < 5) ? payload1 : payload2);
+        counter = counter % 30;
+        axios.post('http://localhost:3000/mock/bluetooth-scan', (counter < 15) ? payload1 : payload2);
     });

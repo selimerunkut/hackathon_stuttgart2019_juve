@@ -18,8 +18,8 @@ var payload2 = {
         }
     ]
 };
-rxjs_1.timer(0, 3000)
+rxjs_1.timer(0, 1000)
     .subscribe(function (counter) {
-    counter = counter % 10;
-    axios_1["default"].post('http://localhost:3000/mock/bluetooth-scan', (counter < 5) ? payload1 : payload2);
+    counter = counter % 30;
+    axios_1["default"].post('http://localhost:3000/mock/bluetooth-scan', (counter < 15) ? payload1 : payload2);
 });

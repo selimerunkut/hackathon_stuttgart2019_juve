@@ -18,24 +18,27 @@ $ node 01-enroll-admin.js
 
 $ node 02-register-user.js
 
-### Start the train server
+### Start the train server / hyperledger blockchain
 
 $ cd packages/train-server/
 
 $ npm start
 
-### Start the App
+available at: http://localhost:3000/
+
+### Start the Web App
 
 $ cd packages/webapp
 
-$ npm start 
+available at: $ npm start 
+
+http://localhost:4200
 
 ### Start the Mock Script that sends the bluethoot data
 
 $ cd packages/train-server/scripts
 
 $ node mock-bt-scan.js
-
 
 ## Troubleshooting
 

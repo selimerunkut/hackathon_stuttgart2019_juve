@@ -1,0 +1,54 @@
+#oben {
+    width: 265px;
+    height: 70px;
+    padding-top: 119px;
+    margin: auto;
+    z-index: 10;
+  }
+  #header {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 0px 0px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 10px;
+  }
+  #logo {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: -30px;
+  }
+  #rate {
+    font-size: 13px;
+    font-weight: 1000;
+    margin-top: 12px;
+    margin-bottom: 5px;
+  }
+  #prize {
+    font-size: 13px;
+    font-weight: 1000;
+    margin-top: 12px;
+    text-align: right;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    color: #1673FF;
+  }
+  
+  #überblick {
+    display: grid;
+    grid-template-columns: 25% 25%;
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+  #services{
+  margin-left: 20px;
+  }
+  #rates{
+  margin-left: 155px;
+  text-align: right;
+  }
+  
+  #fooder {
+  margin-top: -20px;
+  float: right;
+  }
+  
+  

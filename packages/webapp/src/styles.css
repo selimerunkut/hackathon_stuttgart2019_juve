@@ -1,0 +1,104 @@
+/* You can add global styles to this file, and also import other style files */
+
+#app {
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+  
+    /* width: 340px;
+    height: 568px; */
+    width: 400px;
+    height: 700px;
+    margin: auto;
+    z-index: -10;
+    background: url("/assets/iphone-se-png-5.png") no-repeat center;
+  }
+
+  #oben {
+    width: 265px;
+    height: 70px;
+    padding-top: 119px;
+    margin: auto;
+    z-index: 10;
+  }
+  #header {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 0px 0px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 10px;
+  }
+  #logo {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: -30px;
+  }
+  #rate {
+    font-size: 13px;
+    font-weight: 1000;
+    margin-top: 12px;
+    margin-bottom: 5px;
+  }
+  #prize {
+    font-size: 13px;
+    font-weight: 1000;
+    margin-top: 12px;
+    text-align: right;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    color: #1673FF;
+  }
+  
+  #überblick {
+    display: grid;
+    grid-template-columns: 25% 25%;
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+  #services{
+  margin-left: 20px;
+  }
+  #rates{
+  margin-left: 155px;
+  text-align: right;
+  }
+  
+  #fooder {
+  margin-top: -20px;
+  float: right;
+  }
+  
+  
+
+#anbieter{
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    }
+    
+    #anbietername{
+    font-weight: 1000;
+    font-size: 11px;
+    margin-top: 10px;
+    text-align: left;
+    }
+    
+    #anbieternameinfo{
+    font-weight: 300;
+    font-size: 11px;
+    }
+    
+    #anbietertarif{
+    font-weight: 1000;
+    font-size: 11px;
+    margin-top: 10px;
+    text-align: right;
+    margin-right: 10px;
+    }

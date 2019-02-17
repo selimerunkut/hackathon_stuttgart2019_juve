@@ -49,7 +49,8 @@ For stopping container use the cleanupDocker.sh if you get errors the only solut
 If you get this error:
 Failed to evaluate transaction: Error: transaction returned with failure: Error: You've asked to invoke a function that does not exist: findAllEvents...
 ...Failed at the train-server@0.0.0 start script
-### execute
-$ cleanupDocker.sh
-
+#### execute this scripts:
+##### stop hyperledger containers:
+$ ./packages/cleanupDocker.sh
+##### remove docker image for the hyperledger
 $ docker rmi hyperledger/fabric-peer

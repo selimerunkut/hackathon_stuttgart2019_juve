@@ -6,10 +6,13 @@
     </div>
     <div id="rate">{{title}}</div>
     <div id="price">
-        <span *ngIf="tripStatus.completed" class="trip-completed">
+        <span *ngIf="!tripStatus" class="trip-completed">
+            {{ 0 | priceDisplay }}
+        </span>
+        <span *ngIf="tripStatus && tripStatus.completed" class="trip-completed">
             {{ tripStatus.price | priceDisplay }}
         </span>
-        <span *ngIf="!tripStatus.completed">
+        <span *ngIf="tripStatus && !tripStatus.completed">
             {{ tripStatus.price | priceDisplay }}
         </span>
     </div>

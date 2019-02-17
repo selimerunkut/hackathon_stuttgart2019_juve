@@ -9,14 +9,15 @@ import { TripCorrelatorService } from './trip/trip-correlator.service';
 import { TripStatusService } from './trip/trip-status.service';
 import { MacHasherService } from './trip/mac-hasher.service';
 import { debounceTime, map } from 'rxjs/operators'
-import { merge } from 'rxjs';
+import { merge, timer } from 'rxjs';
 import { MockController } from './mock.controller';
 import { TripCommitService } from './trip/trip-commit.service';
+import { WebsocketService } from './trip/websocket.service';
 
 @Module({
   imports: [],
   controllers: [DeviceInfoController, MockController],
-  providers: [AppService, WalletProviderService, MockBluetoothScannerService, GatewayProviderService, BluetoothScannerService, TripCorrelatorService, TripCommitService, TripStatusService, MacHasherService],
+  providers: [AppService, WalletProviderService, MockBluetoothScannerService, GatewayProviderService, BluetoothScannerService, TripCorrelatorService, TripCommitService, TripStatusService, MacHasherService, WebsocketService],
 })
 export class AppModule implements OnModuleInit {
 
@@ -25,7 +26,8 @@ export class AppModule implements OnModuleInit {
     private _mockBluetoothScannerService: MockBluetoothScannerService,
     private _tripCorrelatorService: TripCorrelatorService,
     private _tripStatusService: TripStatusService,
-    private _macHasherService: MacHasherService
+    private _macHasherService: MacHasherService,
+    private _websocketService: WebsocketService
   ) { }
 
 
@@ -54,6 +56,10 @@ export class AppModule implements OnModuleInit {
       });
     this._tripStatusService.initialize(foundDevices$);
     //this._bluetoothScannerService.start();
+    /*
+    timer(0,1000)
+      .subscribe(() => this._websocketService.wss.emit('message', new Date().toISOString()));
+      */
   }
 
 

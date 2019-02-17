@@ -23,6 +23,7 @@
     "@abandonware/noble": "1.9.2-1",
     "@nestjs/common": "^5.4.0",
     "@nestjs/core": "^5.4.0",
+    "@nestjs/websockets": "5.7.2",
     "data-forge": "1.3.3",
     "fabric-ca-client": "~1.4.0",
     "fabric-network": "~1.4.0",

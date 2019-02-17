@@ -32,7 +32,7 @@
     color: #1673FF;
   }
   
-  #überblick {
+  #Ueberblick {
     display: grid;
     grid-template-columns: 25% 25%;
     margin-bottom: 5px;

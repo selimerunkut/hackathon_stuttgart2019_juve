@@ -1,4 +1,9 @@
 <div id="app">
-    <router-outlet></router-outlet>
-    <new-trip-modal></new-trip-modal>
+
+    <div id="oben">
+        <app-header [price]="tripStatus.price"></app-header>
+        <router-outlet></router-outlet>
+    </div>
+
+    <new-trip-modal hidden></new-trip-modal>
 </div>

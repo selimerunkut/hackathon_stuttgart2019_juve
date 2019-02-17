@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as io from 'socket.io-client';
+import { TripStatusUpdateService } from './trip-status-update.service';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +8,25 @@ import * as io from 'socket.io-client';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  ngOnInit(): void {
-    const socket = io('http://localhost:3100');
-    socket.on('message', (data) => console.log('data', data));
+
+  constructor(private _tripStatusUpdateService: TripStatusUpdateService) {
+    this._tripStatusUpdateService.initialize();
   }
+
+  ngOnInit(): void {
+    this._tripStatusUpdateService.tripStatus$.subscribe(() => {
+      this.tripStatus = this._tripStatusUpdateService.tripStatus;
+    });
+    const socket = io('http://localhost:3100');
+    socket.on('message', (data) => {
+      const event = (data);
+      if (event.type == 'TripStarted') {
+        //alert('TripStarted');
+      }
+    });
+  }
+
+  public tripStatus: any;
+
   title = 'webapp';
 }

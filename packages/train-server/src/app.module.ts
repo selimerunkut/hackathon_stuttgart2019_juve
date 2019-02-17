@@ -58,7 +58,7 @@ export class AppModule implements OnModuleInit {
     //this._bluetoothScannerService.start();
     /*
     timer(0,1000)
-      .subscribe(() => this._websocketService.wss.emit('message', new Date().toISOString()));
+      .subscribe(() => 
       */
   }
 

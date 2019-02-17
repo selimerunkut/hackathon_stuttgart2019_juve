@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, OnInit } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +9,10 @@ import { TripsComponent } from './trips.component';
 
 import axios from 'axios';
 import { NewTripModalComponent } from './new-trip-modal.component';
+import { Header } from './header.component';
+import { TripStatusUpdateService } from './trip-status-update.service';
+import { HttpModule } from '@angular/http';
+import { PriceDisplayPipe } from './shared/price-display.pipe';
 axios.defaults.baseURL = 'http://localhost:3000';
 
 @NgModule({
@@ -17,13 +21,21 @@ axios.defaults.baseURL = 'http://localhost:3000';
     ObenComponent,
     AnbieterComponent,
     TripsComponent,
-    NewTripModalComponent
+    NewTripModalComponent,
+    Header,
+    PriceDisplayPipe
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpModule
   ],
-  providers: [],
+  providers: [TripStatusUpdateService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+
+
+
+ }

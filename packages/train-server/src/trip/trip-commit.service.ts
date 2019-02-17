@@ -5,6 +5,7 @@ import { GatewayProviderService } from 'src/hyperledger/gateway-provider.service
 import { StartStopTripDTO } from './start-stop-trip.dto';
 import * as uuid from 'uuid';
 import { TripStatusService } from './trip-status.service';
+import { WebsocketService } from './websocket.service';
 
 const TRAVEL_RATE_OFFSET = 1.04;
 const TRAVEL_RATE_MAX_DEVIATION = 0.12;
@@ -13,7 +14,8 @@ const TRAVEL_RATE_MAX_DEVIATION = 0.12;
 export class TripCommitService {
   constructor(
     private readonly _gatewayProviderService: GatewayProviderService,
-    private readonly _tripStatusService: TripStatusService) { }
+    private readonly _tripStatusService: TripStatusService,
+    private _websocketService: WebsocketService) { }
 
   async commitStartTrip(payload: StartStopTripDTO) {
     try {
@@ -28,6 +30,7 @@ export class TripCommitService {
       const contract = network.getContract('fabcar');
       await contract.submitTransaction('startTrip', JSON.stringify(payload));
       console.log(`Transaction has been evaluated.`);
+      this._websocketService.wss.emit('message', {type: 'TripStarted'});
     } catch (error) {
       console.error(`Failed to evaluate transaction: ${error}`);
       process.exit(1);

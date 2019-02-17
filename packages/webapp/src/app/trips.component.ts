@@ -1,25 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import {timer} from 'rxjs';
-import axios from 'axios';
+import { TripStatusUpdateService } from './trip-status-update.service';
+import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'trips',
-  templateUrl: './trips.component.html'
+    selector: 'trips',
+    templateUrl: './trips.component.html'
 })
 export class TripsComponent implements OnInit {
+    private _tripStatus$: Observable<any>;
 
-    public ngOnInit() {
-        timer(0, 1000)
-        .subscribe(() => this.refreshTripStatus());
+    constructor(private _tripStatusUpdateService: TripStatusUpdateService) {
+
     }
 
-    private async refreshTripStatus() {
-        const mac = '88f8c374c9acf10555a70c86c0b7552b91673e96a817d02c79a0107f3393ff9b';
-        const {data} = await axios.get(`/trip-status-by-device/${mac}`);
-        this.tripStatus = data;
+    public ngOnInit() {
+        this._tripStatusUpdateService.tripStatus$.subscribe(() => {
+            this.tripStatus = this._tripStatusUpdateService.tripStatus;
+        });
     }
 
     public tripStatus: any;
-
 
 }

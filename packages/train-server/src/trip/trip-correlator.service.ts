@@ -19,7 +19,7 @@ export class TripCorrelatorService {
     }
 
     // TODO: Needs refactoring (extract method, renames, cleanup).
-    public test(timeSlices: any[]) {
+    public correlateTripInformation(timeSlices: any[]) {
         const whitelistedMacs = this._failsafeService.isFailsafeEnabled ? [] : VALID_MACS
         const lastTimeSliceNumber = timeSlices.length - 1;
         const prepareDevices = (devices): IDataFrame => {

@@ -56,7 +56,7 @@ export class AppModule implements OnModuleInit {
     foundDevices$
       .subscribe((newTimeSlice) => {
         timeSlices.push(newTimeSlice);
-        this._tripCorrelatorService.test(timeSlices);
+        this._tripCorrelatorService.correlateTripInformation(timeSlices);
       });
     this._tripStatusService.initialize(foundDevices$);
     for (let scannerService of scannerServices) scannerService.start();

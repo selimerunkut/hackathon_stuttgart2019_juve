@@ -9,9 +9,11 @@ import { TripCorrelatorService } from './trip/trip-correlator.service';
 import { TripStatusService } from './trip/trip-status.service';
 import { MacHasherService } from './trip/mac-hasher.service';
 import { debounceTime, map } from 'rxjs/operators'
-import { merge, Observable } from 'rxjs';
+import { merge } from 'rxjs';
 import { MockController } from './mock.controller';
+import { DemoController } from './demo.controller';
 import { TripCommitService } from './trip/trip-commit.service';
+import { TripStatusController } from './trip/trip-status.controller';
 import { WebsocketService } from './trip/websocket.service';
 import { FailsafeService } from './shared/failsafe.service';
 import { MOCK_BLUETOOTH } from './shared/consts';
@@ -19,7 +21,7 @@ import { BaseBluetoothScannerService } from './bluetooth/base-bluetooth-scanner.
 
 @Module({
   imports: [],
-  controllers: [DeviceInfoController, MockController],
+  controllers: [DeviceInfoController, MockController, DemoController, TripStatusController, TripStatusController],
   providers: [AppService, WalletProviderService, MockBluetoothScannerService, GatewayProviderService, BluetoothScannerService, TripCorrelatorService, TripCommitService, TripStatusService, MacHasherService, WebsocketService, FailsafeService],
 })
 export class AppModule implements OnModuleInit {
@@ -29,8 +31,7 @@ export class AppModule implements OnModuleInit {
     private _mockBluetoothScannerService: MockBluetoothScannerService,
     private _tripCorrelatorService: TripCorrelatorService,
     private _tripStatusService: TripStatusService,
-    private _macHasherService: MacHasherService,
-    private _websocketService: WebsocketService
+    private _macHasherService: MacHasherService
   ) { }
 
 

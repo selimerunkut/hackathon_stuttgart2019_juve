@@ -8,9 +8,7 @@ import { FailsafeService } from './shared/failsafe.service';
 @Controller()
 export class DeviceInfoController {
   constructor(
-    private readonly _gatewayProviderService: GatewayProviderService,
-    private readonly _tripStatusService: TripStatusService,
-    private readonly _failsafeService: FailsafeService
+    private readonly _gatewayProviderService: GatewayProviderService
     ) { }
 
   @Post('/start-trip')
@@ -41,24 +39,6 @@ export class DeviceInfoController {
     }
   }
 
-  @Get('/trip-status-by-device/:mac')
-  async getCurrenTripStatusByDevice(@Param('mac') mac: string) {
-    const status = await this._tripStatusService.getTripStatus(mac);
-    return Promise.resolve(status);
-  }
-
-  @Get('/trip-status')
-  public getAllTripStatus() {
-    const tripStatusResults = Array.from(this._tripStatusService.tripStatusById.values());
-    return Promise.resolve(tripStatusResults);
-  }
-
-  @Get('/trip-status/:id')
-  public getCurrenTripStatusById(@Param('id') id: string) {
-    const status = this._tripStatusService.tripStatusById.get(id);
-    return Promise.resolve(status);
-  }
-
   @Get()
   async findAllEvents() {
     try {
@@ -71,20 +51,6 @@ export class DeviceInfoController {
     } catch (error) {
       console.error(`Failed to evaluate transaction: ${error}`);
     }
-  }
-
-  @Get('/demo/failsafe-on')
-  async demoFailSafeOn() {
-    this._failsafeService.isFailsafeEnabled = true;
-    console.warn('### Failsafe On ###');
-    return Promise.resolve('FAILSAFE ON');
-  }
-
-  @Get('/demo/failsafe-off')
-  async demoFailSafeOff() {
-    this._failsafeService.isFailsafeEnabled = false;
-    console.warn('### Failsafe Off ###');
-    return Promise.resolve('FAILSAFE OFF');
   }
 
 }

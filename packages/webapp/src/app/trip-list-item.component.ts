@@ -10,4 +10,7 @@ export class TripListItem  {
     @Input()
     public tripStatus: any;
 
+    @Input()
+    public isCurrent: boolean = false;
+
 }

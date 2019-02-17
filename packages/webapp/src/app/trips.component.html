@@ -1,5 +1,130 @@
-<h1>Trips!</h1>
-<span style="display: block;">{{tripStatus.kilometers | kilometerDisplay}}</span>
-<span style="display: block;">{{tripStatus.duration | timeFormatDisplay}}</span>
+<div id="trip">
+    <div id="überblick">
+      <div id="services">Current</div>
+      <div id="rates">Cost</div>
+      </div>
+
+<div id="anbieter">
+<div id="anbietername">
+Anbietername
+<br>
+<div id="anbieternameinfo">
+Departure 17:25 Uhr
+</div>
+</div>
+<div id="anbietertarif">
 <span style="display: block;">{{tripStatus.price | priceDisplay}}</span>
-<span style="display: block; font-size: 8px; color: lightgray">{{tripStatus | json}}</span>
+<div id="anbieternameinfo">
+<span style="display: inline;">{{tripStatus.kilometers | kilometerDisplay}}</span>
+ |
+<span style="display: inline;">{{tripStatus.duration | timeFormatDisplay}}</span>
+</div>
+</div>
+</div>
+
+<div>
+<img src="/assets/line.png" width="265">
+</div>
+
+
+
+
+<!-- <span style="display: block; font-size: 8px; color: lightgray">{{tripStatus | json}}</span> -->
+
+   <!--  <div v-for="anbieter in anbieterList"><anbieter :anbietername="anbieter.anbietername" :tarif="anbieter.tarif" :tarifbeschreibung="anbieter.tarifbeschreibung"
+    :anbieterbeschreibung="anbieter.anbieterbeschreibung"/></div> -->
+  <div id="fooder">
+  <a [routerLink]="['/oben']" style="text-decoration: none;">
+      <img src="/assets/trips.png" width="90">
+  </a>
+  </div>
+  </div>
+
+<!-- <script>
+import anbieter from "./anbietertrips.vue";
+export default {
+  props: {
+    msg: String
+  },
+  components: {
+    anbieter
+  },
+  data() {
+    return{
+    anbieterList: [
+      { anbietername: "Stuttgart Main Station", anbieterbeschreibung: "next stop, 17:31 Uhr", 
+        tarif: "4,20 €", tarifbeschreibung: "VVS"},
+      { anbietername: "Böblingen", anbieterbeschreibung: "departure, 17:25 Uhr",
+        tarif: "0,20 €", tarifbeschreibung: "per kilometer"}
+    ]
+  }
+ }
+};
+</script> -->
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style >
+#trip {
+  width: 265px;
+  height: 70px;
+  padding-top: 119px;
+  margin: auto;
+  z-index: 10;
+}
+
+#überblick {
+  display: grid;
+  grid-template-columns: 25% 25%;
+  font-size: 13px;
+  margin-top: -120px;
+}
+#services{
+margin-left: 0px;
+color: #0BC6B4;
+}
+#rates{
+margin-left: 162px;
+text-align: right;
+color: #0BC6B4;
+}
+
+
+#anbieter{
+display: grid;
+grid-template-columns: 50% 50%;
+padding-top: 10px;
+padding-bottom: 5px;
+}
+
+#anbietername{
+font-weight: 1000;
+font-size: 11px;
+margin-top: 10px;
+text-align: left;
+margin-left: 10px;
+}
+
+#anbieternameinfo{
+font-weight: 300;
+font-size: 11px;
+}
+
+#anbietertarif{
+font-weight: 1000;
+font-size: 11px;
+margin-top: 10px;
+text-align: right;
+margin-right: 10px;
+}
+
+#fooder {
+  margin-bottom: 115px;
+  margin-left: 165px;
+  left: 0;
+  position: fixed;
+  bottom: 0;
+  width: 770px;
+}
+
+
+</style>
